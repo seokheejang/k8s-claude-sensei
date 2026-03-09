@@ -1,0 +1,11 @@
+.DS_Store
+*.swp
+*.swo
+*~
+.env
+.envrc
+.claude/settings.local.json
+.claude/CLAUDE.local.md
+
+# install.sh가 생성하는 로컬 절대경로 파일
+skills/k8s-study-lab/.repo-root

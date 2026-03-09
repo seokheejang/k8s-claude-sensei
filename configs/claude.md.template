@@ -1,0 +1,8 @@
+# === k8s-study-lab:start ===
+# Managed by k8s-study-lab - DO NOT EDIT between markers
+# Run: <repo-path>/scripts/install.sh
+
+## Available Skills (k8s-study-lab)
+
+- `/k8s-study-lab <domain-or-topic>` - CKA/EKS 소크라틱 튜터 (퀴즈, 노트, 진도 추적)
+# === k8s-study-lab:end ===

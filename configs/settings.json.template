@@ -1,0 +1,7 @@
+{
+  "_comment": "k8s-study-lab permissions",
+  "permissions": {
+    "allow": [],
+    "deny": []
+  }
+}

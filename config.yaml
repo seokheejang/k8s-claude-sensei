@@ -1,0 +1,14 @@
+difficulty: advanced
+socratic_intensity: moderate  # light | moderate | strict
+language: ko
+quiz:
+  questions_per_round: 4
+  pass_threshold: 75
+  mastery_threshold: 85
+  mastery_streak: 3
+spaced_repetition:
+  intervals: [7, 14, 30]
+source_priority:
+  - kubernetes.io/docs
+  - docs.aws.amazon.com/eks
+  - github.com/cncf/curriculum
