@@ -12,3 +12,10 @@ source_priority:
   - kubernetes.io/docs
   - docs.aws.amazon.com/eks
   - github.com/cncf/curriculum
+practice_references:
+  # 개념 학습 소스 아님. 퀴즈 통과 이후 실습/드릴/시험 직전 복습용.
+  # 공식 문서와 상충하면 공식 문서 우선.
+  - name: techiescamp/cka-certification-guide
+    url: https://github.com/techiescamp/cka-certification-guide
+    scope: kubectl cheatsheet, lab manifests, exam-phase drills
+    use_when: module status >= quiz_passed OR user explicitly requests practice/drill

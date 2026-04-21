@@ -12,10 +12,16 @@ allowed-tools: Bash, Read, Grep, Glob, Write, Edit, WebFetch, WebSearch
 
 # K8s/EKS Study Lab — CKA + AWS EKS 기반 소크라틱 튜터
 
-> **출처 기준**
+> **출처 기준 (1차 소스 — 개념 학습 및 소크라틱 답변의 근거)**
 > - CKA 커리큘럼: CNCF 공식 v1.34 (github.com/cncf/curriculum)
 > - AWS EKS: docs.aws.amazon.com/eks/latest/userguide/
 > - K8s 공식 문서: kubernetes.io/docs/
+>
+> **실습/시험 대비 보조 참조 (개념 학습 소스 아님)**
+> - techiescamp/cka-certification-guide — kubectl 치트시트, 실습 매니페스트(`kind-cluster/`, `ingress/`, `network-policy/`, `storage-provisioner/`, `lessons/gateway-api/`), 시험 단계 복습용
+>   - **사용 조건**: 해당 모듈의 `tracker.json` 상태가 `quiz_passed` 이상이거나, 학습자가 명시적으로 "실습/드릴/시험 대비"를 요청할 때만
+>   - **금지**: 소크라틱 튜터링의 1차 답변 출처로 사용 금지. 공식 문서와 상충하면 공식 문서 우선
+>   - **주의**: v1.35 (2026) 기준이라 현재 커리큘럼(v1.34)과 일부 차이 있음 (예: `etcdutl`, multi-part kubeadm config) — 버전 차이는 학습자에게 명시
 
 ---
 

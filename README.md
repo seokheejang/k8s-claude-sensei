@@ -123,6 +123,11 @@ spaced_repetition:
 
 ## 참조
 
+### 1차 소스 (개념 학습 근거)
 - [CKA Curriculum v1.34](https://github.com/cncf/curriculum)
 - [AWS EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/)
 - [Kubernetes Official Docs](https://kubernetes.io/docs/)
+
+### 실습/시험 대비 보조 참조
+퀴즈 통과(`quiz_passed`) 이후 실습 단계 및 시험 직전 복습용. 개념 학습 소스로는 사용하지 않음.
+- [techiescamp/cka-certification-guide](https://github.com/techiescamp/cka-certification-guide) — kubectl 치트시트 + 실습 매니페스트 (kind 멀티노드, Ingress, NetworkPolicy, Gateway API 등)
