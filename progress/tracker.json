@@ -1,19 +1,24 @@
 {
-  "last_updated": "2026-03-26T18:00:00+09:00",
-  "overall_progress": 0,
-  "modules": {
-    "domain-2/ingress-vs-httproute": {
-      "status": "in_progress",
+  "last_updated": "2026-05-10T00:00:00+09:00",
+  "topics": {
+    "networking/ingress-vs-httproute": {
+      "category": "networking",
+      "source_path": "direct",
+      "cka_mapping": ["Domain 2.3 Ingress / Gateway API", "Domain 2.5 CNI"],
+      "last_reviewed": "2026-03-26",
       "sessions": [
         {
           "date": "2026-03-26",
-          "summary": "Ingress vs Cilium HTTPRoute 아키텍처 차이, Envoy/eBPF 개념, L2 Announcement 정리. Gateway API 스펙 차이는 다음 세션에서 이어서 진행."
+          "summary": "Ingress vs Cilium HTTPRoute 아키텍처 차이, Envoy/eBPF 개념, L2 Announcement 정리",
+          "next": "Gateway API 구조와 Ingress 스펙 한계 비교"
         }
       ],
-      "quiz_scores": [],
-      "weak_areas": [],
-      "last_studied": "2026-03-26",
-      "confidence": 30
+      "next_review_hint": "2026-04-09",
+      "open_questions": [
+        "Ingress YAML annotation 의존 vs HTTPRoute 명시적 스펙 - 구체 사례",
+        "Gateway / GatewayClass / HTTPRoute 역할 분리",
+        "헤더 기반 라우팅, 트래픽 가중치 분배 등 고급 라우팅"
+      ]
     }
   }
 }
