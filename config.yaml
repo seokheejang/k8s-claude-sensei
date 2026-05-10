@@ -1,21 +1,24 @@
-difficulty: advanced
-socratic_intensity: moderate  # light | moderate | strict
 language: ko
-quiz:
-  questions_per_round: 4
-  pass_threshold: 75
-  mastery_threshold: 85
-  mastery_streak: 3
-spaced_repetition:
-  intervals: [7, 14, 30]
+
+# 학습 카테고리 — notes/ 하위 폴더와 1:1 매핑
+categories:
+  - k8s-ops          # K8s 운영 필수 (RBAC, etcd, 업그레이드, 워크로드 트러블슈팅)
+  - db-ops           # DB 운영 전반 — Operator 패턴(CNPG/clickhouse-op), 마이그레이션, 토폴로지, 백업/복원, 튜닝
+  - gitops           # ArgoCD, Helm 문법/설계
+  - cloud-native     # 서비스 a~z 아키텍처
+  - networking       # CS 기초 → K8s 연동 → 트러블슈팅
+
+# CKA 매핑 lookup 파일
+cka_curriculum_path: references/cka-curriculum.md
+
+# 복습 힌트 (강제 알림 아님, 모드 C에서 후보 정렬용)
+review_hint_days:
+  default: 14
+  dense: 7
+  light: 30
+
+# 1차 소스 — grill-me에서 막혔을 때 학습자에게 안내할 공식 문서 우선순위
 source_priority:
   - kubernetes.io/docs
   - docs.aws.amazon.com/eks
   - github.com/cncf/curriculum
-practice_references:
-  # 개념 학습 소스 아님. 퀴즈 통과 이후 실습/드릴/시험 직전 복습용.
-  # 공식 문서와 상충하면 공식 문서 우선.
-  - name: techiescamp/cka-certification-guide
-    url: https://github.com/techiescamp/cka-certification-guide
-    scope: kubectl cheatsheet, lab manifests, exam-phase drills
-    use_when: module status >= quiz_passed OR user explicitly requests practice/drill

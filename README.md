@@ -1,34 +1,92 @@
 # k8s-claude-sensei
 
-Claude-driven K8s study system — Socratic tutoring, CKA curriculum, EKS deep dives, spaced repetition
+실무에서 만난 K8s/EKS/GitOps/네트워크 학습 메모를 압축·정리해서 내 것으로 만드는 회고 튜터.
 
-## Overview
+## 본질
 
-CKA 시험 커리큘럼(CNCF 공식 v1.34)과 AWS EKS 공식 문서 기반의 소크라틱 튜터 시스템.
-Claude Code의 `/k8s-study-lab` 슬래시 커맨드로 활성화됩니다.
+**다른 곳에 흘려둔 학습 메모를 → 내 것으로 압축하는 회고 사이클**
 
-### 주요 기능
+- 다른 프로젝트의 docs(learning, plans 등)에는 그때그때 알게 된 내용을 적어두지만, 거기서 끝나버리는 일이 많음
+- 따로 학습할 시간/에너지는 없지만, 한 번은 머리에 다시 되새기고 압축해서 복습 가능한 형태로 남기고 싶음
+- 주 1회, 못해도 월 1회 이 repo에서 회고하는 흐름
 
-- **소크라틱 튜터링** — 답을 바로 주지 않고 질문으로 사고를 유도
-- **CKA 5개 도메인** — 시험 비중에 따른 체계적 커리큘럼
-- **퀴즈 시스템** — 4문제/라운드, 75% 통과, 85% 마스터리
-- **진도 추적** — tracker.json 기반 상태 관리, 스페이스드 리피티션
-- **학습 노트** — 세션 종료 시 자동 생성, 커밋으로 이력 관리
-- **EKS 특화** — AWS 공식 문서 기반 관리형 환경 차이점
+### 학습 카테고리
 
-## 설치
+| 카테고리 | 범위 |
+|---|---|
+| `k8s-ops` | K8s 운영 필수 (RBAC, etcd, 업그레이드, 워크로드 트러블슈팅) |
+| `db-ops` | DB 운영 전반 — Operator(CNPG, clickhouse-operator), 토폴로지 변환, 백업/복원, 쿼리 튜닝 |
+| `gitops` | ArgoCD, Helm 문법/설계 |
+| `cloud-native` | 서비스 a~z 아키텍처 설계 |
+| `networking` | CS 기초 → K8s 연동 → 모니터링/장애 대응 |
 
-### 의존성
+## 워크플로우
 
-- [Claude Code](https://claude.ai/code) (CLI)
-- `jq` — JSON 처리
-- `python3` — CLAUDE.md 머지
-
-```bash
-brew install jq  # macOS
+```
+실무에서 메모 작성 (다른 repo) → /k8s-study-lab 호출 → CKA 매핑 → grill-me 검증 → 압축 노트 → 복습
 ```
 
-### 설치
+### 모드 3가지
+
+```bash
+# A. 외부 메모 정리 (메인)
+/k8s-study-lab /path/to/other-repo/docs/learning-2025-w20.md
+
+# B. 토픽 시작 (메모 경로를 먼저 묻고 모드 A로 전환)
+/k8s-study-lab "argocd helm chart hooks"
+
+# C. 복습 후보 제시 (인자 없음)
+/k8s-study-lab
+```
+
+## CKA 처리
+
+CKA는 **추가 설명 레이어**로 동작:
+- 실무 메모를 받으면 `references/cka-curriculum.md`를 lookup 해서 관련 도메인/토픽을 자동 매핑
+- "이건 Domain 2.3과 직결, 옆에 2.5도 같이 봐두면 좋아요" 식으로 안내
+- 시험 자체가 목적이 아니라 **실무 학습의 연장선** — 놓치는 영역을 찾는 용도
+
+## 디렉토리 구조
+
+```
+k8s-claude-sensei/
+├── skills/k8s-study-lab/SKILL.md   # 회고 튜터 스킬
+├── references/cka-curriculum.md    # CKA 매핑 lookup
+├── config.yaml                     # 카테고리, 복습 힌트 일수
+├── notes/                          # 압축된 학습 노트
+│   ├── k8s-ops/
+│   ├── db-ops/
+│   ├── gitops/
+│   ├── cloud-native/
+│   └── networking/
+├── docs/study-backlog.md           # 점검 대기 후보 (외부 메모 리스트)
+├── progress/tracker.json           # 토픽별 last_reviewed, open_questions
+├── scripts/install.sh
+├── CLAUDE.md
+└── .claude/settings.json           # kubectl 변경 명령 deny
+```
+
+## 노트 형식
+
+```markdown
+---
+topic: <토픽명>
+category: <k8s-ops|db-ops|gitops|cloud-native|networking>
+source: <외부 메모 절대경로 또는 "direct">
+cka_mapping: ["Domain 2.3 Ingress / Gateway API"]
+last_reviewed: YYYY-MM-DD
+review_density: default  # default(14d) | dense(7d) | light(30d)
+---
+
+## 핵심 (한 달 뒤 5분이면 다시 머리에 들어오는 압축본)
+## 왜 이게 중요한가 (실무 관점)
+## CKA 연결
+## 미해결 의문점       # grill-me에서 끝까지 못 푼 분기
+## 출처
+## 세션 이력
+```
+
+## 설치
 
 ```bash
 git clone <repo-url> ~/k8s-claude-sensei
@@ -36,98 +94,31 @@ cd ~/k8s-claude-sensei
 ./scripts/install.sh
 ```
 
-install.sh가 수행하는 작업:
-1. `notes/`, `progress/` 디렉토리 초기화
+`install.sh`가 하는 일:
+1. `notes/`, `progress/` 초기화
 2. `skills/k8s-study-lab` → `~/.claude/skills/k8s-study-lab` 심링크
 3. `~/.claude/settings.json` 머지
 4. `~/.claude/CLAUDE.md`에 마커 블록 추가
 
-## 사용법
+### 의존성
+- [Claude Code](https://claude.ai/code)
+- `jq`, `python3`
 
-> **Note**: `/k8s-study-lab` 스킬은 SKILL.md에 소크라틱 튜터 톤 & 스타일이 내장되어 있어,
-> 별도의 output-style 전환 없이 학습 모드로 동작합니다.
-> 스킬이 활성화된 세션에서만 적용되며, 다른 Claude 창/세션은 기본 모드로 유지됩니다.
+## 사용 예시
 
 ```bash
-# Claude Code 실행
-claude
-
-# 학습 시작 (도메인/토픽 지정)
-/k8s-study-lab CKA Domain 5 Troubleshooting
-
-# 특정 토픽 학습
-/k8s-study-lab etcd
-
-# 퀴즈 요청
-"etcd 관련 퀴즈 내줘"
-
-# 진도 확인
-"현재 학습 현황 보여줘"
-
 # 학습 후 커밋
 git add notes/ progress/
-git commit -m "study: etcd raft consensus - session 2"
+git commit -m "study: <topic>"
 ```
 
-## 디렉토리 구조
+## 안전 규칙
 
-```
-k8s-claude-sensei/
-├── skills/
-│   └── k8s-study-lab/
-│       └── SKILL.md           # 소크라틱 튜터 스킬 정의
-├── config.yaml                # 학습 설정 (난이도, 퀴즈 규칙 등)
-├── notes/                     # 학습 노트 (자동 생성)
-│   ├── domain-1/              # Cluster Architecture (25%)
-│   ├── domain-2/              # Services & Networking (20%)
-│   ├── domain-3/              # Workloads & Scheduling (15%)
-│   ├── domain-4/              # Storage (10%)
-│   └── domain-5/              # Troubleshooting (30%)
-├── progress/
-│   ├── tracker.json           # 진도 데이터
-│   └── quiz-history/          # 퀴즈 이력
-├── configs/                   # 설치 템플릿
-├── scripts/
-│   └── install.sh             # 설치 스크립트
-├── CLAUDE.md                  # 프로젝트 레벨 규칙
-└── .claude/
-    └── settings.json          # kubectl deny 규칙
-```
-
-## CKA 도메인 (v1.34)
-
-| Domain | 비중 | 주요 토픽 |
-|--------|------|----------|
-| 1. Cluster Architecture | 25% | RBAC, kubeadm, etcd, K8s API |
-| 2. Services & Networking | 20% | Service, Ingress, CoreDNS, CNI, NetworkPolicy |
-| 3. Workloads & Scheduling | 15% | Deployment, Scheduling, HPA/KEDA, StatefulSet |
-| 4. Storage | 10% | PV/PVC, CSI, Volume Types |
-| 5. Troubleshooting | 30% | 클러스터/워크로드/네트워크/노드 진단 |
-
-## 설정 커스터마이징
-
-`config.yaml`을 수정하여 학습 설정을 변경할 수 있습니다:
-
-```yaml
-difficulty: advanced          # beginner | intermediate | advanced
-socratic_intensity: moderate  # light | moderate | strict
-language: ko
-quiz:
-  questions_per_round: 4
-  pass_threshold: 75
-  mastery_threshold: 85
-  mastery_streak: 3
-spaced_repetition:
-  intervals: [7, 14, 30]
-```
+- kubectl은 READ-ONLY만 허용 (claude-ops-skills 글로벌 규칙)
+- 외부 메모 파일은 Read 전용 — 정리 결과는 이 repo의 `notes/`에만 저장
 
 ## 참조
 
-### 1차 소스 (개념 학습 근거)
 - [CKA Curriculum v1.34](https://github.com/cncf/curriculum)
+- [Kubernetes Docs](https://kubernetes.io/docs/)
 - [AWS EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/)
-- [Kubernetes Official Docs](https://kubernetes.io/docs/)
-
-### 실습/시험 대비 보조 참조
-퀴즈 통과(`quiz_passed`) 이후 실습 단계 및 시험 직전 복습용. 개념 학습 소스로는 사용하지 않음.
-- [techiescamp/cka-certification-guide](https://github.com/techiescamp/cka-certification-guide) — kubectl 치트시트 + 실습 매니페스트 (kind 멀티노드, Ingress, NetworkPolicy, Gateway API 등)

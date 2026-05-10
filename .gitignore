@@ -9,3 +9,6 @@
 
 # install.sh가 생성하는 로컬 절대경로 파일
 skills/k8s-study-lab/.repo-root
+
+# 점검 대기 후보 — 외부(회사) repo 절대경로/내부 코드명 포함, 로컬 전용
+docs/study-backlog.md

@@ -4,5 +4,5 @@
 
 ## Available Skills (k8s-study-lab)
 
-- `/k8s-study-lab <domain-or-topic>` - CKA/EKS 소크라틱 튜터 (퀴즈, 노트, 진도 추적)
+- `/k8s-study-lab <외부 메모 경로 | 토픽 | 비워두면 복습 후보>` — 실무 학습 메모 회고 튜터 (CKA 매핑 → grill-me 검증 → 압축 노트)
 # === k8s-study-lab:end ===

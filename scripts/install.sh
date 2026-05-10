@@ -70,23 +70,22 @@ backup_dir() {
 init_study_dirs() {
     log_step "학습 디렉토리 초기화 중..."
 
-    # notes 디렉토리
-    for i in 1 2 3 4 5; do
-        mkdir -p "$REPO_DIR/notes/domain-$i"
+    # notes 디렉토리 (학습 카테고리별)
+    for cat in k8s-ops db-ops gitops cloud-native networking; do
+        mkdir -p "$REPO_DIR/notes/$cat"
     done
-    log_info "  notes/domain-{1..5}/ 생성 완료"
+    log_info "  notes/{k8s-ops,db-ops,gitops,cloud-native,networking}/ 생성 완료"
 
     # progress 디렉토리
-    mkdir -p "$REPO_DIR/progress/quiz-history"
-    log_info "  progress/quiz-history/ 생성 완료"
+    mkdir -p "$REPO_DIR/progress"
+    log_info "  progress/ 생성 완료"
 
     # tracker.json 초기화 (없을 때만)
     if [ ! -f "$REPO_DIR/progress/tracker.json" ]; then
         cat > "$REPO_DIR/progress/tracker.json" << 'TRACKER_EOF'
 {
   "last_updated": null,
-  "overall_progress": 0,
-  "modules": {}
+  "topics": {}
 }
 TRACKER_EOF
         log_info "  tracker.json 초기화 완료"
